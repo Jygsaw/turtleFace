@@ -24,7 +24,7 @@ var HackerView = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    return this.$el.html('<p>Hey Im here</p>');
+    return this.$el.html('<img src='+ this.model.get('image')+ '>');
   }
 });
 
@@ -34,7 +34,10 @@ var CohortDisplayView = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    return this.$el.html('<p>Hey Im Cohort View</p>');
+    var imageNode = '<p>Hey Im Cohort View</p>';
+    var hackerView = new HackerView({ model: this.collection.at(0) });
+    imageNode = hackerView.$el;
+    return this.$el.html(imageNode).attr('id', 'pictureFrame');
   }
 });
 
@@ -50,13 +53,13 @@ var CohortNavView = Backbone.View.extend({
 
 console.log("===== MAIN BODY =====");
 var hacker = new Hacker({
-  name: 'testName',
-  image: 'testImg',
+  name: 'George Clooney',
+  image: 'http://www.nndb.com/people/763/000022697/george-clooney.jpg'
 });
 var cohort = new Cohort(hacker);
-var cohortView = new CohortDisplayView(cohort);
+var cohortView = new CohortDisplayView({ collection: cohort});
 var cohortNavView = new CohortNavView(cohort);
 $(function(){
-  $('body').append(cohortView.$el);
-  $('body').append(cohortNavView.$el);
+  $('#navView').append(cohortNavView.$el);
+  $('#displayView').append(cohortView.$el);
 });
