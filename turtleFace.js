@@ -24,7 +24,10 @@ var HackerView = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    return this.$el.html('<img src='+ this.model.get('image')+ '>');
+    var html = '';
+    html += '<img src=' + this.model.get('image') + '>';
+    html += '<div class="hackerName"><p>' + this.model.get('name') + '</p></div>';
+    return this.$el.html(html);
   }
 });
 
