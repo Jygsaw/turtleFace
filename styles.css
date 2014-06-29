@@ -36,3 +36,7 @@
   width: 263%;
   text-align: center;
 }
+
+.hidden {
+  visibility: hidden;
+}

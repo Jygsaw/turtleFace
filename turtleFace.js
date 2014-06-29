@@ -4,10 +4,15 @@ var Hacker = Backbone.Model.extend({
   defaults: function() {
     return {
       name: 'George Clooney',
-      image: 'http://www.nndb.com/people/763/000022697/george-clooney.jpg'
+      image: 'http://www.nndb.com/people/763/000022697/george-clooney.jpg',
+      nameHidden: true
     };
   },
   initialize: function() {
+  },
+  showName: function() {
+    console.log('came in');
+    this.set('nameHidden', false);
   }
 });
 
@@ -20,14 +25,32 @@ var Cohort = Backbone.Collection.extend({
 
 var HackerView = Backbone.View.extend({
   tagName: 'div',
+  events: {
+    'click': 'showName',
+  },
   initialize: function() {
+    console.log('ive been changed');
     this.render();
+    this.model.on('change', function(){
+      this.render();
+    }, this);
   },
   render: function(){
     var html = '';
     html += '<img src=' + this.model.get('image') + '>';
-    html += '<div class="hackerName"><p>' + this.model.get('name') + '</p></div>';
+    html += '<div class="hackerName"><p';
+    if (this.model.get('nameHidden')) {
+      html += ' class="hidden"';
+    }
+    html += '>' + this.model.get('name') + '</p></div>';
     return this.$el.html(html);
+  },
+  // showName: function() {
+  //   console.log("crap");
+  //   this.$el.find('.hidden').removeClass('hidden');
+  // }
+  showName: function(){
+    return this.model.showName();
   }
 });
 
